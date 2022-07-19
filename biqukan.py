@@ -66,7 +66,6 @@ class Biqukan:
                 if re.search(domain_pattern, paragraph):
                     continue
                 paragraph = re.sub("\s", "", paragraph)
-                print(paragraph)
                 f.write("       " + paragraph + "\n")
             f.write("\n\n\n")
             print(chapter_name, "download success!")
