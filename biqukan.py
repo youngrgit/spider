@@ -12,9 +12,10 @@ class Biqukan:
         self.path = path
         self.url = url
         self.headers = headers
+        self.tag = 0
 
     def get_chapter_url(self):
-        response = requests.get(self.url)  # 
+        response = requests.get(self.url)  #
         response.encoding = "gbk"
         directory_content_html = response.text
         chapter_soup = BeautifulSoup(directory_content_html, "html.parser")
@@ -53,19 +54,28 @@ class Biqukan:
         :param chapter_content: 章节以段落为分割的列表
         :return: None
         """
+        if self.tag == 200:
+            self.tag = 0
+            time.sleep(7200)
         save_path = self.path + self.novel_name + ".txt"
         with open(save_path, "a+", encoding="utf-8") as f:
             print(chapter_name, "downloading...")
             f.write(chapter_name + "\n\n")
             for paragraph in chapter_content:
-                f.write(paragraph + "\n")
+                domain_pattern = re.compile(r"((https?)?:\/\/)?[^\s]+\.(com|cn|top|xyz)")
+                if re.search(domain_pattern, paragraph):
+                    continue
+                paragraph = re.sub("\s", "", paragraph)
+                print(paragraph)
+                f.write("       " + paragraph + "\n")
             f.write("\n\n\n")
             print(chapter_name, "download success!")
+        self.tag += 1
 
 
 if __name__ == '__main__':
-    u = "https://www.bqkan8.com/0_790/"
+    yinianyongheng = "https://www.bqkan8.com/1_1094/"
+    # douluodaluo = "https://www.bqkan8.com/1_1496/"
     p = "../data/novel/"
-    b = Biqukan(p, u)
-    # b.get_chapter_url()
-    b.get_content("https://www.bqkan8.com/10_10643/84296054.html")
+    b = Biqukan(p, yinianyongheng)
+    b.get_chapter_url()
