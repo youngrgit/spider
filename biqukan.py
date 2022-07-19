@@ -62,7 +62,7 @@ class Biqukan:
             print(chapter_name, "downloading...")
             f.write(chapter_name + "\n\n")
             for paragraph in chapter_content:
-                domain_pattern = re.compile(r"((https?)?:\/\/)?[^\s]+\.(com|cn|top|xyz)")
+                domain_pattern = re.compile(r"((https?)?:\/\/)?\S+\.(com|cn|top|xyz)")
                 if re.search(domain_pattern, paragraph):
                     continue
                 paragraph = re.sub("\s", "", paragraph)
@@ -75,6 +75,7 @@ class Biqukan:
 if __name__ == '__main__':
     yinianyongheng = "https://www.bqkan8.com/1_1094/"
     # douluodaluo = "https://www.bqkan8.com/1_1496/"
+    # yuanzun = "https://www.bqkan8.com/0_790/"
     p = "../data/novel/"
     b = Biqukan(p, yinianyongheng)
     b.get_chapter_url()
